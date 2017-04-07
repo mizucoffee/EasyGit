@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.mizucoffee</groupId>
   <artifactId>easygit</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>EasyGit</name>
   <description>EasyGit</description>
   <repositories>
@@ -44,4 +44,5 @@
     <version>1.19-SNAPSHOT</version>
   </dependency>
   </dependencies>
+  
 </project>
