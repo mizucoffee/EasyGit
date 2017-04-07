@@ -153,7 +153,7 @@ public class Main {
 					git.commit().setAll(true).setMessage(text.getText()).call();
 					CredentialsProvider cp = new UsernamePasswordCredentialsProvider( id,pw );
 					git.push().setCredentialsProvider(cp).setRemote("origin").call();
-					MessageBox box = new MessageBox(shell,SWT.YES|SWT.NO);
+					MessageBox box = new MessageBox(shell);
 					box.setText("ACPŠ®—¹");
 					box.setMessage("ACP‚ªŠ®—¹‚µ‚Ü‚µ‚½I");
 					box.open();
