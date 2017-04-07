@@ -1,6 +1,7 @@
 package net.mizucoffee.easygit;
 
 import java.awt.Checkbox;
+import java.beans.beancontext.BeanContextChildComponentProxy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -152,6 +153,10 @@ public class Main {
 					git.commit().setAll(true).setMessage(text.getText()).call();
 					CredentialsProvider cp = new UsernamePasswordCredentialsProvider( id,pw );
 					git.push().setCredentialsProvider(cp).setRemote("origin").call();
+					MessageBox box = new MessageBox(shell,SWT.YES|SWT.NO);
+					box.setText("ACPäÆóπ");
+					box.setMessage("ACPÇ™ñ‚ëËÇ»Ç≠äÆóπÇµÇ‹ÇµÇΩÅI");
+					box.open();
 				} catch (NoHeadException e2) {
 					e2.printStackTrace();
 				} catch (NoMessageException e2) {
