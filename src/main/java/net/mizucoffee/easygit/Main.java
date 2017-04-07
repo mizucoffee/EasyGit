@@ -155,7 +155,7 @@ public class Main {
 					git.push().setCredentialsProvider(cp).setRemote("origin").call();
 					MessageBox box = new MessageBox(shell,SWT.YES|SWT.NO);
 					box.setText("ACPŠ®—¹");
-					box.setMessage("ACP‚ª–â‘è‚È‚­Š®—¹‚µ‚Ü‚µ‚½I");
+					box.setMessage("ACP‚ªŠ®—¹‚µ‚Ü‚µ‚½I");
 					box.open();
 				} catch (NoHeadException e2) {
 					e2.printStackTrace();
