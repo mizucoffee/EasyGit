@@ -84,13 +84,17 @@ public class LoginInputDialog extends Dialog {
     label2.setText("Password");
     label2.setLayoutData(gridData);
     gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-    final Text text2 = new Text(shell, SWT.SINGLE | SWT.BORDER);
+    final Text text2 = new Text(shell, SWT.SINGLE | SWT.BORDER | SWT.PASSWORD);
     text2.setLayoutData(gridData);
-    
     
     final Button buttonOK = new Button(shell, SWT.PUSH);
     buttonOK.setText("OK");
     buttonOK.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+    
+    final Button buttonExit = new Button(shell, SWT.PUSH);
+    buttonExit.setText("Exit");
+    buttonExit.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+    
     
     text.addListener(SWT.Modify, new Listener() {
         public void handleEvent(Event event) {
@@ -124,6 +128,12 @@ public class LoginInputDialog extends Dialog {
     	  shell.dispose();
       }
     });
+    buttonExit.addListener(SWT.Selection, new Listener() {
+        public void handleEvent(Event event) {
+            System.exit(0);
+        }
+      });
+    
 
     shell.addListener(SWT.Traverse, new Listener() {
       public void handleEvent(Event event) {

@@ -1,14 +1,11 @@
 package net.mizucoffee.easygit;
 
-import java.awt.Checkbox;
-import java.beans.beancontext.BeanContextChildComponentProxy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
-import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -16,27 +13,19 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import org.eclipse.egit.github.core.client.GitHubClient;
+import org.eclipse.egit.github.core.client.GitHubRequest;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.AbortedByHookException;
 import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.api.errors.InvalidRemoteException;
-import org.eclipse.jgit.api.errors.NoFilepatternException;
 import org.eclipse.jgit.api.errors.NoHeadException;
 import org.eclipse.jgit.api.errors.NoMessageException;
-import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.StoredConfig;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.PushResult;
-import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.RemoteConfig;
-import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -44,12 +33,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -74,7 +58,7 @@ public class Main {
 	public static void main(String[] args) {
 		Display display = new Display ();
 		shell = new Shell (display);
-		shell.setText("いーじーぎっと");
+		shell.setText("EasyGit");
 		
 		folderLabel = new Label(shell, SWT.NONE);
 		folderLabel.setText("フォルダ:");
@@ -243,14 +227,26 @@ public class Main {
 			loginInputDialog.setMessage("Githubのログイン情報を入力してください。\nログイン情報を変更する場合はconfig.datを削除してください。");
 			if(loginInputDialog.open() == 0){
 				if(loginInputDialog.getId().equals("") || loginInputDialog.getPw().equals("")){
-					MessageBox box = new MessageBox(shell,SWT.YES|SWT.NO);
+					MessageBox box = new MessageBox(shell);
 					box.setText("エラー");
-					box.setMessage("入力に不備があります。もう一度入力しますか？");
-					if(box.open() == SWT.YES) {
-						check();
-					}
-					System.exit(0);
+					box.setMessage("入力に不備があります。もう一度入力してください。");
+					box.open();
+					check();
 				}
+				GitHubClient gitHubClient = new GitHubClient();
+				gitHubClient.setCredentials(loginInputDialog.getId(), loginInputDialog.getPw());
+				try {
+					gitHubClient.get(new GitHubRequest().setUri(""));
+					
+				} catch (IOException e2) {
+					e2.printStackTrace();
+					MessageBox box = new MessageBox(shell);
+					box.setText("エラー");
+					box.setMessage("ログインに失敗しました。もう一度お試しください。");
+					box.open();
+					check();
+				}
+				
 				String text = loginInputDialog.getId() + "," + loginInputDialog.getPw();
 				try {
 					FileOutputStream fileOutStm = null;
