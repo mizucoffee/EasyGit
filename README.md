@@ -57,5 +57,4 @@ Repository nameに好きな名前（プロジェクトの名前）を入力し�
 以後は[手順](#手順)3以降を実行してください。
 
 ### 導入
-https://github.com/KawakawaRitsuki/EasyGit/releases/tag/1.0.1
-から自分の使っているOSに合ったファイルをダウンロードしましょう！
+[リリース](https://github.com/KawakawaRitsuki/EasyGit/releases/)から自分の使っているOSに合ったファイルをダウンロードしましょう！
