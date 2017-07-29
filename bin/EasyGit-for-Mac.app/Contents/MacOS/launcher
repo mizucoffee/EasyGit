@@ -3,7 +3,7 @@
 
 # Constants
 JAVA_MAJOR=1
-JAVA_MINOR=8
+JAVA_MINOR=9
 APP_JAR="EasyGit-for-Mac.jar"
 APP_NAME="EasyGit"
 VM_ARGS=""
@@ -44,4 +44,4 @@ if [[ "$_java" ]]; then
 fi
 
 # Run the application
-exec $_java $VM_ARGS -Dapple.laf.useScreenMenuBar=true -XstartOnFirstThread -Dcom.apple.macos.use-file-dialog-packages=true -Xdock:name="$APP_NAME" -Xdock:icon="$DIR/../Resources/application.icns" -cp ".;$DIR;" -jar "$DIR/$APP_JAR"
+exec $_java $VM_ARGS -Dapple.laf.useScreenMenuBar=true -Dcom.apple.macos.use-file-dialog-packages=true -Xdock:name="$APP_NAME" -Xdock:icon="$DIR/../Resources/application.icns" -cp ".;$DIR;" -jar "$DIR/$APP_JAR"
