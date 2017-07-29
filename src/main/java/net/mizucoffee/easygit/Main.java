@@ -131,6 +131,8 @@ public class Main {
 						box.setMessage("最新の状態です！");
 						box.setText("ACP");
 						box.open();
+						CredentialsProvider cp = new UsernamePasswordCredentialsProvider( id,pw );
+						git.push().setCredentialsProvider(cp).setRemote("origin").call();
 						return;
 					}
 					git.add().addFilepattern(".").call();
@@ -141,20 +143,49 @@ public class Main {
 					box.setText("ACP完了");
 					box.setMessage("ACPが完了しました！");
 					box.open();
+					text.setText("");
 				} catch (NoHeadException e2) {
 					e2.printStackTrace();
+					MessageBox box = new MessageBox(shell);
+					box.setText("ACP失敗");
+					box.setMessage("エラーが発生しました。時間を空けてお試しください。");
+					box.open();
 				} catch (NoMessageException e2) {
 					e2.printStackTrace();
+					MessageBox box = new MessageBox(shell);
+					box.setText("ACP失敗");
+					box.setMessage("エラーが発生しました。時間を空けてお試しください。");
+					box.open();
 				} catch (UnmergedPathsException e2) {
 					e2.printStackTrace();
+					MessageBox box = new MessageBox(shell);
+					box.setText("ACP失敗");
+					box.setMessage("マージが完了していません。");
+					box.open();
 				} catch (ConcurrentRefUpdateException e2) {
 					e2.printStackTrace();
+					MessageBox box = new MessageBox(shell);
+					box.setText("ACP失敗");
+					box.setMessage("エラーが発生しました。時間を空けてお試しください。");
+					box.open();
 				} catch (WrongRepositoryStateException e2) {
 					e2.printStackTrace();
+					MessageBox box = new MessageBox(shell);
+					box.setText("ACP失敗");
+					box.setMessage("エラーが発生しました。時間を空けてお試しください。");
+					box.open();
 				} catch (AbortedByHookException e2) {
 					e2.printStackTrace();
+					MessageBox box = new MessageBox(shell);
+					box.setText("ACP失敗");
+					box.setMessage("エラーが発生しました。時間を空けてお試しください。");
+					box.open();
 				} catch (GitAPIException e2) {
 					e2.printStackTrace();
+					MessageBox box = new MessageBox(shell);
+					box.setText("ACP失敗");
+					box.setMessage("エラーが発生しました。時間を空けてお試しください。");
+					box.open();
 				}
 			}
 			
@@ -221,10 +252,10 @@ public class Main {
 	}
 	
 	private static void check() {
-		if(!new File("config.dat").exists()){
+		if(!new File(System.getProperty("user.home"),"config.dat").exists()){
 			LoginInputDialog loginInputDialog = new LoginInputDialog(shell);
 			loginInputDialog.setText("初期設定");
-			loginInputDialog.setMessage("Githubのログイン情報を入力してください。\nログイン情報を変更する場合はconfig.datを削除してください。");
+			loginInputDialog.setMessage("Githubのログイン情報を入力してください。\nログイン情報を変更する場合はホームフォルダにあるconfig.datを削除してください。");
 			if(loginInputDialog.open() == 0){
 				if(loginInputDialog.getId().equals("") || loginInputDialog.getPw().equals("")){
 					MessageBox box = new MessageBox(shell);
@@ -237,7 +268,6 @@ public class Main {
 				gitHubClient.setCredentials(loginInputDialog.getId(), loginInputDialog.getPw());
 				try {
 					gitHubClient.get(new GitHubRequest().setUri(""));
-					
 				} catch (IOException e2) {
 					e2.printStackTrace();
 					MessageBox box = new MessageBox(shell);
@@ -247,11 +277,14 @@ public class Main {
 					check();
 				}
 				
+				id = loginInputDialog.getId();
+				pw = loginInputDialog.getPw();
+				
 				String text = loginInputDialog.getId() + "," + loginInputDialog.getPw();
 				try {
 					FileOutputStream fileOutStm = null;
 					try {
-						fileOutStm = new FileOutputStream("config.dat");
+						fileOutStm = new FileOutputStream(new File(System.getProperty("user.home"),"config.dat"));
 						fileOutStm.write(encrypt(key, text));
 					} catch (FileNotFoundException e1) {
 						e1.printStackTrace();
@@ -277,7 +310,7 @@ public class Main {
 				}
 			}
 		}else {
-			final File file = new File("config.dat");
+			final File file = new File(System.getProperty("user.home"),"config.dat");
 			final long fileSize = file.length();
 			final int byteSize = (int) fileSize;
 			byte[] bytes = new byte[byteSize];
@@ -294,8 +327,21 @@ public class Main {
 			try {
 				String s = decrypt(key, bytes);
 				String[] data = s.split(",");
-				id = data[0];
-				pw = data[1];
+				GitHubClient gitHubClient = new GitHubClient();
+				gitHubClient.setCredentials(data[0], data[1]);
+				try {
+					gitHubClient.get(new GitHubRequest().setUri(""));
+					id = data[0];
+					pw = data[1];
+				} catch (IOException e2) {
+					e2.printStackTrace();
+					MessageBox box = new MessageBox(shell);
+					box.setText("エラー");
+					box.setMessage("ログインに失敗しました。設定し直して下さい。");
+					box.open();
+					file.delete();
+					check();
+				}
 			} catch (InvalidKeyException e1) {
 				e1.printStackTrace();
 			} catch (IllegalBlockSizeException e1) {
