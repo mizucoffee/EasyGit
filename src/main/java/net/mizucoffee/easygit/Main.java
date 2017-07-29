@@ -1,4 +1,4 @@
-package net.mizucoffee.easygit;
+ï»¿package net.mizucoffee.easygit;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -61,30 +61,30 @@ public class Main {
 		shell.setText("EasyGit");
 		
 		folderLabel = new Label(shell, SWT.NONE);
-		folderLabel.setText("ƒtƒHƒ‹ƒ_:");
+		folderLabel.setText("ãƒ•ã‚©ãƒ«ãƒ€:");
 		
 		Label label = new Label(shell, SWT.NONE);
-		label.setText("ì‹Æ“à—e");
+		label.setText("ä½œæ¥­å†…å®¹");
 		
 		
 		text = new Text(shell, SWT.BORDER);
 		text.setEnabled(false);
 
 		Button selectBtn = new Button(shell, SWT.PUSH);
-		selectBtn.setText("ƒtƒHƒ‹ƒ_‘I‘ğ");
+		selectBtn.setText("ãƒ•ã‚©ãƒ«ãƒ€é¸æŠ");
 		selectBtn.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
 				DirectoryDialog directoryDialog = new DirectoryDialog(shell,SWT.OPEN);
-				directoryDialog.setMessage("ƒvƒƒWƒFƒNƒg‚ÌƒtƒHƒ‹ƒ_‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B");
+				directoryDialog.setMessage("ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ•ã‚©ãƒ«ãƒ€ã‚’æŒ‡å®šã—ã¦ãã ã•ã„ã€‚");
 				String path = directoryDialog.open();
 				if(path == null) return;
 				try {
 					git = Git.open(new File(path));
 				} catch (RepositoryNotFoundException e1) {
 					InputDialog dialog = new InputDialog(shell);
-					dialog.setText("Šm”F");
-					dialog.setMessage("‚±‚ÌƒfƒBƒŒƒNƒgƒŠ‚ÍGit‚ÅŠÇ—‚³‚ê‚Ä‚¢‚Ü‚¹‚ñBGitŠÇ—‰º‚É‚µ‚Ü‚·‚©H\n" + path);
+					dialog.setText("ç¢ºèª");
+					dialog.setMessage("ã“ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¯Gitã§ç®¡ç†ã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚Gitç®¡ç†ä¸‹ã«ã—ã¾ã™ã‹ï¼Ÿ\n" + path);
 					if(dialog.open() == 0){
 						try {
 							git = Git.init().setDirectory(new File(path)).call();
@@ -111,7 +111,7 @@ public class Main {
 					e1.printStackTrace();
 					return;
 				}
-				folderLabel.setText("ƒtƒHƒ‹ƒ_:" + git.getRepository().getWorkTree().getPath());
+				folderLabel.setText("ãƒ•ã‚©ãƒ«ãƒ€:" + git.getRepository().getWorkTree().getPath());
 				text.setEnabled(true);
 			}
 			
@@ -121,14 +121,14 @@ public class Main {
 		});
 		
 		acpBtn = new Button(shell, SWT.PUSH);
-		acpBtn.setText("ACP(“]‘—)");
+		acpBtn.setText("ACP(è»¢é€)");
 		acpBtn.addSelectionListener(new SelectionListener() {
 			
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					if(git.status().call().isClean()){
 						MessageBox box = new MessageBox(shell);
-						box.setMessage("ÅV‚Ìó‘Ô‚Å‚·I");
+						box.setMessage("æœ€æ–°ã®çŠ¶æ…‹ã§ã™ï¼");
 						box.setText("ACP");
 						box.open();
 						return;
@@ -138,8 +138,8 @@ public class Main {
 					CredentialsProvider cp = new UsernamePasswordCredentialsProvider( id,pw );
 					git.push().setCredentialsProvider(cp).setRemote("origin").call();
 					MessageBox box = new MessageBox(shell);
-					box.setText("ACPŠ®—¹");
-					box.setMessage("ACP‚ªŠ®—¹‚µ‚Ü‚µ‚½I");
+					box.setText("ACPå®Œäº†");
+					box.setMessage("ACPãŒå®Œäº†ã—ã¾ã—ãŸï¼");
 					box.open();
 				} catch (NoHeadException e2) {
 					e2.printStackTrace();
@@ -223,13 +223,13 @@ public class Main {
 	private static void check() {
 		if(!new File("config.dat").exists()){
 			LoginInputDialog loginInputDialog = new LoginInputDialog(shell);
-			loginInputDialog.setText("‰Šúİ’è");
-			loginInputDialog.setMessage("Github‚ÌƒƒOƒCƒ“î•ñ‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B\nƒƒOƒCƒ“î•ñ‚ğ•ÏX‚·‚éê‡‚Íconfig.dat‚ğíœ‚µ‚Ä‚­‚¾‚³‚¢B");
+			loginInputDialog.setText("åˆæœŸè¨­å®š");
+			loginInputDialog.setMessage("Githubã®ãƒ­ã‚°ã‚¤ãƒ³æƒ…å ±ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚\nãƒ­ã‚°ã‚¤ãƒ³æƒ…å ±ã‚’å¤‰æ›´ã™ã‚‹å ´åˆã¯config.datã‚’å‰Šé™¤ã—ã¦ãã ã•ã„ã€‚");
 			if(loginInputDialog.open() == 0){
 				if(loginInputDialog.getId().equals("") || loginInputDialog.getPw().equals("")){
 					MessageBox box = new MessageBox(shell);
-					box.setText("ƒGƒ‰[");
-					box.setMessage("“ü—Í‚É•s”õ‚ª‚ ‚è‚Ü‚·B‚à‚¤ˆê“x“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B");
+					box.setText("ã‚¨ãƒ©ãƒ¼");
+					box.setMessage("å…¥åŠ›ã«ä¸å‚™ãŒã‚ã‚Šã¾ã™ã€‚ã‚‚ã†ä¸€åº¦å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚");
 					box.open();
 					check();
 				}
@@ -241,8 +241,8 @@ public class Main {
 				} catch (IOException e2) {
 					e2.printStackTrace();
 					MessageBox box = new MessageBox(shell);
-					box.setText("ƒGƒ‰[");
-					box.setMessage("ƒƒOƒCƒ“‚É¸”s‚µ‚Ü‚µ‚½B‚à‚¤ˆê“x‚¨‚µ‚­‚¾‚³‚¢B");
+					box.setText("ã‚¨ãƒ©ãƒ¼");
+					box.setMessage("ãƒ­ã‚°ã‚¤ãƒ³ã«å¤±æ•—ã—ã¾ã—ãŸã€‚ã‚‚ã†ä¸€åº¦ãŠè©¦ã—ãã ã•ã„ã€‚");
 					box.open();
 					check();
 				}

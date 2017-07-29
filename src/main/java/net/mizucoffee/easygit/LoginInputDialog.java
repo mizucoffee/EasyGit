@@ -1,4 +1,4 @@
-package net.mizucoffee.easygit;
+﻿package net.mizucoffee.easygit;
 
 
 import java.util.prefs.BackingStoreException;
