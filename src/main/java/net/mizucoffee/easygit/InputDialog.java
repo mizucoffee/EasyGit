@@ -1,13 +1,7 @@
 ﻿package net.mizucoffee.easygit;
 
-import java.util.prefs.BackingStoreException;
 import java.util.regex.Pattern;
-
-import javax.swing.border.TitledBorder;
-
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ShellListener;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
